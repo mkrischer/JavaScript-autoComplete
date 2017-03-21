@@ -153,7 +153,8 @@ my_autoComplete.destroy();</code></pre>
     selector: 'input[name=&quot;q&quot;]',
     minChars: 2,
     source: function(term, suggest){
-        term = term.toLowerCase();
+        var a   = term.toLowerCase().split(" ");
+		term	= a[a.length-1];
         var choices = ['ActionScript', 'AppleScript', 'Asp', ...];
         var matches = [];
         for (i=0; i&lt;choices.length; i++)
@@ -270,7 +271,8 @@ new autoComplete({
             selector: '#hero-demo',
             minChars: 1,
             source: function(term, suggest){
-                term = term.toLowerCase();
+                var a   = term.toLowerCase().split(" ");
+		        term	= a[a.length-1];
                 var choices = ['ActionScript', 'AppleScript', 'Asp', 'Assembly', 'BASIC', 'Batch', 'C', 'C++', 'CSS', 'Clojure', 'COBOL', 'ColdFusion', 'Erlang', 'Fortran', 'Groovy', 'Haskell', 'HTML', 'Java', 'JavaScript', 'Lisp', 'Perl', 'PHP', 'PowerShell', 'Python', 'Ruby', 'Scala', 'Scheme', 'SQL', 'TeX', 'XML'];
                 var suggestions = [];
                 for (i=0;i<choices.length;i++)
