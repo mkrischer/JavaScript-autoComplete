@@ -97,10 +97,16 @@ var autoComplete = (function(){
 
             live('autocomplete-suggestion', 'mousedown', function(e){
                 if (hasClass(this, 'autocomplete-suggestion')) { // else outside click
-                    var v = this.getAttribute('data-val');
-                    that.value = v;
-                    o.onSelect(e, v, this);
-                    that.sc.style.display = 'none';
+			var v = this.getAttribute('data-val');
+			/* added for multiply suggestion support by manuel a. krischer, th koeln */
+			var ot = '';
+			var old = that.value.split(" ");
+			var arr = old.slice(0,old.length-1);
+			ot = arr.join(' ');
+			that.value = (ot + " " + v).trim();
+			//that.value = v;
+			o.onSelect(e, v, this);
+			that.sc.style.display = 'none';
                 }
             }, that.sc);
 
@@ -114,18 +120,19 @@ var autoComplete = (function(){
             };
             addEvent(that, 'blur', that.blurHandler);
 
-            var suggest = function(data){
+	var suggest = function(data){		
                 var val = that.value;
                 that.cache[val] = data;
                 if (data.length && val.length >= o.minChars) {
-                    var s = '';
-                    for (var i=0;i<data.length;i++) s += o.renderItem(data[i], val);
-                    that.sc.innerHTML = s;
-                    that.updateSC(0);
-                }
-                else
-                    that.sc.style.display = 'none';
-            }
+			var s = '';
+			for (var i=0;i<data.length;i++) 
+				s += o.renderItem(data[i], val);			
+			that.sc.innerHTML = s;
+			that.updateSC(0);
+		}
+		else
+			that.sc.style.display = 'none';
+	}
 
             that.keydownHandler = function(e){
                 var key = window.event ? e.keyCode : e.which;
